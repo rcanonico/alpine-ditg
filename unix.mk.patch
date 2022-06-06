@@ -1,0 +1,42 @@
+--- unix.mk.orig
++++ unix.mk
+@@ -42,7 +42,7 @@
+ RELEASE += -DVERSION="\"$(VERSION)\""
+ RELEASE += -DREVISION="\"$(REVISION)\""
+ 
+-COMPONENTS = ITGSend ITGRecv ITGLog ITGDec libITG ITGManager
++COMPONENTS = ITGSend ITGRecv ITGLog ITGDec 
+ WARNINGS = -Wall -Wno-deprecated -Wno-strict-aliasing
+ PREFIX = /usr/local
+ 
+@@ -78,7 +78,7 @@
+ export SUFFIX =
+ export SOSUFFIX = .so
+ export CXXFLAGS = $(CXXOPT) $(OSFLAGS) $(RELEASE) $(WARNINGS) -fPIC
+-export LDFLAGS = -lpthread -lm $(LDOPT)
++export LDFLAGS = -lpthread -lm -static $(LDOPT)
+ export BASEDIR = $(shell pwd)
+ export BIN = $(shell dirname $(BASEDIR))/bin
+ export COMMON = $(BASEDIR)/common/
+@@ -200,10 +200,6 @@
+ 		$(CP) $(BIN)/$${e}$(SUFFIX) "$(PREFIX)/bin" ;\
+ 		echo 'done' ;\
+ 	  done
+-	@ mkdir -p "$(PREFIX)/lib"
+-	@ printf "Copying libITG$(SOSUFFIX)..."
+-	@ $(CP) $(BIN)/libITG$(SOSUFFIX) "$(PREFIX)/lib"
+-	@ echo 'done'
+ 	@ printf '\n----------------------------------------------------------\n'
+ 	@ echo 'D-ITG installed in $(BIN)'
+ 	
+@@ -214,9 +210,6 @@
+ 	@ echo '------------------'
+ 	@ printf "Removing components..."
+ 	@ $(RM) $(PREFIX)/bin/ITG*$(SUFFIX)
+-	@ echo 'done'
+-	@ printf "Removing libITG$(SOSUFFIX)..."
+-	@ $(RM) $(PREFIX)/lib/libITG$(SOSUFFIX)
+ 	@ echo 'done'
+ 	
+ ######
+
